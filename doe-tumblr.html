@@ -393,13 +393,15 @@
 				width: 100%;
 			}
 
-		.text-content p {
+		.text-content p,
+		.content-rows:has(.text-content):not(:first-of-type) .text-content p { /* This is fucking stupid and there must be a cleaner way to fix this edge case; why are some posts Like That anyways? */
 			margin: 1rem 0 0;
 		}
 
 			section .text-content:first-of-type p {
 				margin: 0;
 			}
+
 
 			.text-content .unordered-list-item,
 			.text-content .ordered-list-item{
