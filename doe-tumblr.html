@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html>
+
+<!-- o~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~o -->
+<!-- | ............ doe-tumblr-theme by LensDeer ........... | -->
+<!-- | ... https://github.com/marshdeer/doe-tumblr-theme ... | -->
+<!-- | ........... Made for MY PERSONAL USE ONLY ........... | -->
+<!-- | .... Not that it'd be of much use to anyone, lol .... | -->
+<!-- | .... Send me an ask to commission a custom theme .... | -->
+<!-- o~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~o -->
+<!---->
+<!-- JAVASCRIPT HEAVILY BORROWS FROM github.com/cornetespoir/npf-theme-base -->
+
+<head>
+	<!-- Meta -->
+		<meta charset="utf-8">
+	<!-- Embed -->
+		<title>LensDeer's Hideout | Tumblr {block:TagPage} ({lang:Posts tagged Tag}){/block:TagPage}{block:SearchPage} ({lang:Search results for SearchQuery}){/block:SearchPage}{block:PermalinkPage}{block:PostSummary} — {PostSummary}{/block:PostSummary}{/block:PermalinkPage}</title>
+		<link rel="shortcut icon" href="{Favicon}">
+		<link rel="apple-touch-icon-precomposed" href="{PortraitURL-128}">
+		<link rel="alternate" type="application/rss+xml" href="{RSS}">
+		<meta name="description" content="{MetaDescription}">
+	<!-- Stylesheets -->
+		<link rel="stylesheet" type="text/css" href="https://lensdeer.neocities.org/globals/doe.css">
+		<link rel="stylesheet" type="text/css" href="https://lensdeer.neocities.org/globals/tumblr/doe-tumblr.css">
+	<!-- Tumblr boilerplate -->
+		{PostTypographyStyles}
+	<!-- Options -->
+		{block:Options}
+			<meta name="text:blog description" content="" />
+		{block:Options}
+</head>
+
+<style>
+	/* Font fix */
+		@font-face {
+			font-family: 'Fantasque';
+			src: url('https://static.tumblr.com/kxnrdjs/FQksg2pr8/fantasquesansmono-regular.ttf') format('woff');
+		}
+
+	/* Windows Layout */
+		#tumblrinfobox.window .content {
+			display: grid;
+			grid-template-areas:
+				"pic title"
+				"pic description"
+				"pic buttons";
+			grid-template-columns: 128px 1fr;
+			grid-template-rows: auto auto auto;
+			gap: 6px;
+			text-align: center;
+			justify-items: center;
+		}
+
+			#tumblrinfobox.window .content .buttons {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-around;
+				grid-area: buttons;
+				width: 100%;
+			}
+
+			#tumblrinfobox.window .content .title {
+				font-size: bigger;
+				color: var(--accent);
+				margin: 0 auto;
+			}
+
+			#tumblrinfobox.window .content .description {
+				margin: 0 auto;
+			}
+
+		#projects.window {
+			width: fit-content;
+			right: 23px;
+			top: 30px;
+		}
+
+		#search.window {
+			bottom: 180px;
+			right: 40px;
+			width: 350px;
+		}
+
+			#search.window .content {
+				display: grid;
+				grid-template-columns: 1fr auto;
+				gap: 6px;
+			}
+
+			#search.window input[type=submit] {
+				border: none;
+			}
+
+			#search.window input[type=text] {
+				background: none;
+				color: var(--fg1);
+				padding: 3px;
+				box-shadow: /* TODO: why the fuck is the border Like That */
+					-1px -1px 0 1px var(--dteal),
+					0 0 0 1px var(--fg1);
+				width: calc(100% - 10px);
+				height: 1em;
+			}
+
+				#search.window input[type=text]:focus {
+					outline: none !important;
+					background: var(--bg2) !important;
+				}
+
+		#error.window {
+			text-align: center;
+		}
+
+	/* Window layering on mouseover */
+		.window:not(main) {
+			z-index: -1;
+			transition: .2s all
+		}
+
+			.window:not(main):where(:hover, :has(:focus)) {
+				z-index: 2 !important;
+			}
+
+	/* Post Styling */
+		main .content {
+			display: grid;
+			grid-template-rows: 1fr auto;
+			height: 100%;
+			padding: 0;
+			overflow-y: scroll;
+		}
+
+		#posts {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			width: calc(500px + 24px);
+			height: 100%;
+			padding: 3px 0;
+		}
+
+		#post-pagination {
+			width: 518px;
+			padding: 0;
+			margin: 6px 3px;
+		}
+
+			#post-pagination .notes {
+				padding-right: 3px;
+			}
+
+			#post-pagination li {
+				padding: 0.25em 0;
+			}
+
+				#post-pagination li:nth-child(2n) {
+					background: var(--bg1);
+				}
+
+				#post-pagionation li .avatar_frame {
+					margin-right: 1ch;
+				}
+
+		#pagination {
+			width: 100%;
+			margin-top: 3px;
+			position: relative;
+		}
+
+			#pagination .button {
+				position: absolute;
+			}
+
+		article {
+			width: fit-content;
+			background: var(--accent);
+			transition: background .1s;
+			margin-left: 3px;
+			position: relative;
+		}
+
+			article .article-content {
+				margin: 3px;
+				display: flex;
+				flex-direction: column;
+				gap: 9px;
+			}
+
+			article section {
+				display: flex;
+				flex-direction: column;
+				gap: 9px;
+				padding: 0;
+			}
+
+				article section header {
+					width: fit-content;
+					height: fit-content;
+					background: var(--bg0);
+					transition: background .1s;
+				}
+
+					article section header.pink {
+						align-self: end;
+					}
+
+					article section header img {
+						width: 32px;
+						padding: 0 !important;
+					}
+
+					.usernames::before {
+						content: "@";
+					}
+
+
+					article section header a {
+						text-decoration: underline dotted var(--fg0);
+						color: var(--fg0);
+						line-height: 32px;
+						display: flex;
+						align-items: center;
+						gap: 6px;
+						padding: 3px;
+					}
+
+					    article section header a:has(.usernames.brokenblog) {
+					        text-decoration: none;
+					    }
+
+				article .trail-item,
+				article .tags {
+					background: var(--bg0);
+					width: 500px;
+				}
+
+				article .tags {
+					display: block;
+				}
+
+				article .trail-item .poll {
+					display: flex;
+					flex-direction: column;
+					gap: 3px;
+					text-align: center;
+					width: fit-content;
+					margin: 3px auto;
+					max-width: calc(100% - 12px);
+				}
+
+					article .trail-item .poll .button {
+						width: calc(100% - 7px); /* Why that extra pikxel??? */
+					}
+
+					article .trail-item .poll .question {
+						font-size: 1.5em;
+						font-weight: bold;
+						max-width: 100%;
+					}
+
+				article .audio-wrapper {
+					display: grid;
+					grid-template-columns: 1fr 128px;
+					grid-template-rows: 1fr 40px;
+					grid-template-areas:
+						"meta pic"
+						"player pic";
+					width: calc(100% - 6px);
+					background: var(--accent);
+					padding: 0px !important;
+					margin: 3px 3px 6px;
+					height: 128px;
+				}
+
+					article .audio-wrapper .audio-meta {
+						display: flex;
+						flex-direction: column;
+						text-align: center;
+						justify-content: center;
+						font-size: larger;
+						grid-area: meta;
+						color: var(--bg0);
+					}
+
+					article .audio-wrapper img {
+						width: 128px;
+						grid-area: pic;
+					}
+
+					article .audio-wrapper audio {
+						grid-area: player;
+						height: 40px;
+						width: 100%;
+						background: var(--accent);
+					}
+
+				article .post-link {
+					background: var(--accent);
+					display: grid;
+					margin: 3px;
+					padding: 0 !important;
+					text-decoration: underline dotted;
+					color: var(--bg0);
+					min-height: 1em;
+				}
+
+					.post-link .poster {
+						position: relative;
+					}
+
+						.post-link .poster.has-image {
+							height: 250px;
+							background-size: contain, cover !important;
+						}
+
+					.post-link .description {
+						padding: 3px;
+					}
+
+					.post-link .link-title {
+						position: absolute;
+						bottom: 0;
+						width: 100%;
+						text-align: center;
+						padding: 0;
+						margin: 0;
+						font-weight: bold;
+					}
+
+				article .ask {
+					display: flex;
+					flex-direction: column;
+					gap: 9px;
+					padding: 3px;
+				}
+
+					article .ask header span::before {
+						content: "@";
+					}
+
+					article .ask .reply-header {
+						align-self: end;
+					}
+
+			article footer {
+				width: calc(100% - 6px);
+				display: flex;
+				margin: 9px 3px 3px;
+				justify-content: space-between;
+			}
+
+				article footer .info-box {
+					height: 22px;
+					line-height: 22px;
+					background: var(--bg0);
+				}
+
+				:where(header, footer, .tags) a {
+					text-decoration: underline dotted var(--fg0);
+					color: var(--gray);
+					transition: background .1s;
+				}
+
+					.tags a:hover {
+						text-decoration: underline dotted var(--bg0);
+						color: var(--bg0);
+						background-color: var(--gray);
+						border-radius: 2px;
+					}
+
+				article footer .note-count:where(:hover, :focus),
+				article section header:where(:hover, :focus) {
+					background: var(--bg2) !important;
+				}
+
+				article footer .interaction-buttons {
+					display: flex;
+					width: fit-content;
+					gap: 3px;
+					background: var(--bg0);
+				}
+
+		.content-rows {
+			--gap: 3px;
+			width: 500px;
+			display: grid;
+			grid-template-columns: repeat(var(--columns), calc((100% - ((var(--columns) - 1) * var(--gap))) / var(--columns)));
+			gap: var(--gap);
+		}
+
+			.content-rows .row-element {
+				width: 100%;
+			}
+
+		.text-content p {
+			margin: 1rem 0 0;
+		}
+
+			section .text-content:first-of-type p {
+				margin: 0;
+			}
+
+			.text-content .unordered-list-item,
+			.text-content .ordered-list-item{
+				margin-left: 4ch;
+			}
+
+				.text-content .ordered-list-item {
+					counter-increment: orderedcounter;
+				}
+
+					.text-content .ordered-list-item::marker {
+						content: counter(orderedcounter) ". ";
+						font-weight: bold;
+					}
+
+					.content-rows:not(:has(.ordered-list-item)) + .content-rows:has(.ordered-list-item) {
+						counter-reset: orderedcounter;
+					}
+
+				.text-content .unordered-list-item::marker {
+					content: "- ";
+				}
+
+			.text-content .indented,
+			blockquote {
+				border-left: 4px solid var(--gray);
+			}
+
+				blockquote {
+					margin-inline: 3px;
+					padding-left: 4px;
+				}
+
+					blockquote p:has(a.tumblr_blog) {
+						margin: 0;
+					}
+
+				.text-content .indented {
+					padding-left: calc(2ch - 4px);
+				}
+
+			.text-content .quote {
+				font-family: Georgia;
+				font-size: 1.2em;
+			}
+
+			.text-content .heading1 {
+				font-size: 2em;
+				font-weight: bold;
+			}
+
+			.text-content .heading2 {
+				font-size: 1.7em;
+				font-weight: bold;
+			}
+
+			.text-content .quirky {
+				font-family: Fairwater;
+				font-size: 1.2em;
+			}
+
+			.text-content .chat {
+				display: grid;
+				grid-template-columns: auto 1fr;
+			}
+
+				.text-content .chat b {
+					grid-column: 1;
+					text-align: right;
+					padding-right: 1ch;
+				}
+
+			.text-content a {
+				color: var(--blue);
+			}
+
+				.text-content a:where(:hover, :focus) {
+					color: var(--bg0);
+					background: var(--blue);
+				}
+
+		article .trail-item :where(img, video,iframe.video){
+			max-width: min(500px, 100%) !important;
+		}
+</style>
+
+<style>{CustomCSS}</style>
+
+<body>
+	<!-- ====================== BASE UI SECTION ============================ -->
+	<a class="skipnav window red thin border" href="#main">
+		Skip to content
+	</a>
+
+	<div class="DOE window pink border">
+		<span class="titlebar">BLEAT | DOE - Digital Organization Environment</span>
+		<nav>
+			<a class="border gray thin" href="https://lensdeer.neocities.org/home/index.html">
+				<img src="https://lensdeer.neocities.org/globals/icons/doe.png">
+				<span> Home </span>
+			</a>
+			<a class="border gray thin" href="https://lensdeer.tumblr.com">
+				<img src="https://lensdeer.neocities.org/globals/icons/tumblr.png">
+				<span> Tumblr </span>
+			</a>
+			<a class="border gray thin" href="https://lensdeer.tumblr.com/tagged/lensdeerart">
+				<img src="https://lensdeer.neocities.org/globals/icons/art.png">
+				<span> Art </span>
+			</a>
+			<a class="border gray thin" href="https://github.com/marshdeer">
+				<img src="https://lensdeer.neocities.org/globals/icons/git.png">
+				<span> Code </span>
+			</a>
+			<a class="border gray thin" href="https://lensdeer.neocities.org/writing/index.html">
+				<img src="https://lensdeer.neocities.org/globals/icons/blog.png">
+				<span> Writing </span>
+			</a>
+			<a class="border gray thin" href="https://lensdeer.neocities.org/demos/index.html">
+				<img src="https://lensdeer.neocities.org/globals/icons/demos.png">
+				<span> Demos </span>
+			</a>
+			<a class="border gray thin" href="https://lensdeer.neocities.org/hiscore/index.html">
+				<img src="https://lensdeer.neocities.org/globals/icons/hiscore.png">
+				<span> Scores </span>
+			</a>
+			<a class="border gray thin" href="https://lensdeer.neocities.org/zach/index.html">
+				<img src="https://lensdeer.neocities.org/globals/icons/exa.png">
+				<span> Solutions </span>
+			</a>
+			<a class="border gray thin" href="https://lensdeer.neocities.org/ocs/index.html">
+				<img src="https://lensdeer.neocities.org/globals/icons/ocs.png">
+				<span> OCs </span>
+			</a>
+			<a class="border gray thin" href="https://lensdeer.neocities.org/medialog/index.html">
+				<img src="https://lensdeer.neocities.org/globals/icons/media.png">
+				<span> Medialog </span>
+			</a>
+		</nav>
+		<time id="clock">88:88</time>
+		<script src="https://lensdeer.neocities.org/globals/clock.js"></script>
+
+	<!-- ======================== TUMBLR SECTION =========================== -->
+	<!-- Posts -->
+	<main class="window blue border" style="width: fit-content; height: 450px; left: 157px; top: 40px; z-index: 1">
+		<span class="titlebar"> Browser | {BlogURL}{block:SearchPage}search/{SearchQuery}{/block:SearchPage}{block:TagPage}tagged/{Tag}{/block:TagPage}</span>
+		<div class="content">
+			<div id="posts" class="feed {block:submitpage}inbox{/block:submitpage} {block:AskPage}inbox{/block:AskPage}">
+				{block:SearchPage}
+					<h1 style="text-align: center; color: var(--blue);">Search results for {SearchQuery}</h1>
+				{/block:SearchPage}
+				{block:TagPage}
+					<h1 style="text-align: center; color: var(--blue)">Posts tagged #{Tag}</h1>
+				{/block:TagPage}
+				{block:Posts}
+					<noscript>
+						<article class="border gray">
+							<span class="titlebar"> {block:NotReblog}Original {/block:NotReblog}Post{block:RebloggedFrom} reblogged from {ReblogParentName}{/block:RebloggedFrom} </span>
+							<div class="article-content">
+								<div class="trail-item thin border gray">
+									{Body}
+								</div>
+							</div>
+							<footer>
+								<a class="note-count info-box gray thin border" href="{Permalink}">{NoteCountWithLabel}</a>
+								<span class="post-date info-box gray thin border">{Year}/{MonthNumberWithZero}/{DayofMonthWithZero} @ {24HourWithZero}:{Minutes}:{Seconds}</span>
+								<div class="interaction-buttons gray thin border">
+									<a class="orange button" href="{Permalink}">Perma</a>
+									<a class="blue button" href="https://tumblr.com/{name}/{PostID}">View</a>
+									<a class="green button" href="https://tumblr.com/reblog/{name}/{PostID}/reblog">Reblog</a>
+								</div>
+							</footer>
+						</article>
+					</noscript>
+				{/block:Posts}
+				<!-- JAVASCRIPT VERSION APPENDS POSTS HERE -->
+			</div>
+
+			{block:PermalinkPagination}
+				<div id="post-pagination" class="thin gray border"></div>
+			{/block:PermalinkPagination}
+			{block:Pagination}
+				<div id="pagination">
+					{block:PreviousPage}<a href="{PreviousPage}" style="left: 0;" class="blue button">Previous Page</a>{/block:PreviousPage}
+					{block:NextPage}<a href="{NextPage}" style="right: 0;" class="blue button">Next Page</a>{/block:NextPage}
+				</div>
+			{/block:Pagination}
+		</div>
+	</main>
+
+	<!-- Info Box -->
+	<aside id="tumblrinfobox" class="window pink border" style="right: 12px; bottom: 12px;>">
+		<span class="titlebar"> Tumblr | Blog Info </span>
+		<div class="content">
+			<img class="pink thin border" style="grid-area: pic; padding: 0;" src={PortraitURL-128}>
+			<h1 class="title">{Title}</h1>
+			<p class="description">{text:blog description}</p>
+			<div class="buttons">
+				{block:AskEnabled}<a class="pink button" href=/ask>{AskLabel}</a>{/block:AskEnabled}
+				{block:LikesEnabled}<a class="red button" href=/likes>Likes</a>{/block:LikesEnabled}
+				<a class="blue button" href=/archive>Archive</a>
+				<a class="orange button" href="{RSS}">RSS</a>
+			</div>
+		</div>
+	</aside>
+
+	<!-- Search -->
+	<form class="window green border" id="search" action="/search" method="get" role="search">
+		<span class="titlebar">Search This Blog</span>
+		<div class="content">
+			<input type="text" name="q" placeholder="{BlogURL}search/" autocomplete=off value="{SearchQuery}"/ class="thin green border">
+			<input type="submit" value="Search!" class="green button"/>
+		</div>
+	</form>
+
+	<!-- Projects -->
+	<aside id="projects" class="window pink border">
+	<span class="titlebar">Projects</span>
+		<div class="content" style="display: flex; flex-direction: column; gap: 0px; height: calc(3*(31px + 4px); overflow: clip;">
+			<a style="text-decoration: none;" href="https://lensdeer.neocities.org">
+				<img src="https://lensdeer.neocities.org/globals/88x31.gif">
+			</a>
+			<a style="text-decoration: none;" href="https://marshdeer.github.io/howlongmojang">
+				<img src=https://marshdeer.github.io/howlongmojang/img/button.gif>
+			</a>
+			<a style="text-decoration: none;" href="https://marshdeer.github.io/root-faction-randomizer">
+				<img src=https://marshdeer.github.io/root-faction-randomizer/assets/88x31.gif>
+			</a>
+		</div>
+	</aside>
+
+	<!-- Error windows -->
+		<!-- Empty Search -->
+		{block:SearchPage}{block:NoSearchResults}
+		<div id="error" class="window red border" style="width: 25ch; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3">
+			<span class="titlebar"> No Results </span>
+			<div class="content">
+				<p>
+					No posts found
+				</p>
+				<a class="button" href="{BlogURL}">Go Back</a>
+			</div>
+		</div>
+		{/block:NoSearchResults}{/block:SearchPage}
+
+		<!-- Empty Blog -->
+		{block:NoPosts}
+		<div id="error" class="window red border" style="width: 25ch; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3">
+			<span class="titlebar"> No Results </span>
+			<div class="content">
+				<p>
+					No posts found
+				</p>
+				<a class="button" href="{BlogURL}">Go Back</a>
+			</div>
+		</div>
+		{/block:NoPosts}
+
+		<!-- No Javascript -->
+		<noscript>
+			<div id="error" class="window red border" style="width: 40ch; left: 165px; bottom: 20px; z-index: 0">
+				<span class="titlebar"> Javascript recommended </span>
+				<div class="content">
+					<p>
+						Hi! I programmed this theme to render posts using Tumblr's <a href="https://github.com/tumblr/docs/blob/master/npf-spec.md">NPF</a> object definitions <small>(what Yahoo meant by "next-generation PDF", believe it or not!)</small>.
+					</p>
+					<p>
+						Sadly, this forced me to make post rendering dependant on client-side Javascript. I don't like it either! I'm usually very against it, but Tumblr posts are structured in such a way that required this compromise.
+					</p>
+					<p>
+						If you see this message, you are seeing a fallback "noscript" version of the page. Some posts may render incorrectly, and JS is sadly required for the full experience.
+					</p>
+				</div>
+			</div>
+		</noscript>
+	</div>
+</body>
+
+<!-- =========================== NPF RENDERING SCRIPT ====================== -->
+<script>
+	// Set global variables
+		let user = "{name}"
+		let posts = new Array()
+		let container = document.getElementById('posts')
+		let pagination = document.getElementById('post-pagination')
+
+	// Create posts array
+	{block:Posts} // "Posts" block renders once per post in the page
+		posts.push({
+		id: {JSPostID},
+		inboxBody: {JSBody},
+		postNotes: {JSPostNotesURL},
+		{block:NoteCount} noteCount: {JSNoteCountWithLabel}, {/block:NoteCount}
+		permalink: {JSPermalink},
+		npf: JSON.parse({JSNPF}),
+		date: "{Year}/{MonthNumberWithZero}/{DayofMonthWithZero} @ {24HourWithZero}:{Minutes}:{Seconds}"
+		{block:hasTags}, tags: [{block:Tags} {JSTag}, {/block:Tags}] {/block:hasTags}
+		{block:NotReblog}
+				, titlebarText: "Original post by {name}",
+				original: true
+		{/block:NotReblog}
+		{block:PinnedPostLabel}, pinned: true {/block:PinnedPostLabel}
+		{block:RebloggedFrom}, titlebarText: "Post reblogged from {ReblogParentName}" {/block:RebloggedFrom}
+		})
+	{/block:Posts}
+
+	// Function: Build Text Block
+	function createText(content) {
+		let str =  content.text.replaceAll('<', '&lt;')
+		let texts = str.replaceAll('>', '&gt;')
+		if (content.text === '') return ''
+		let output = ""
+		// if there is formatted content
+		if (content.formatting) {
+			let characters = Array.from(texts.split(''))
+			for (const [i, text] of characters.entries()) {
+				const char = texts[i]
+				// look for end of format
+				const endFormatTypes = content.formatting.filter((f) => f.end === i);
+				// for each type, create a closing tag
+				for (const f of endFormatTypes) {
+					if (f.type === "link") {output += "</a>"}
+					if (f.type === "color") {output += "</span>"}
+					if (f.type === "bold") {output += "</b>"}
+					if (f.type === "small") {output += "</small>"}
+					if (f.type === "mention") {output += "</a>"}
+					if (f.type === "italic") {output += "</i>"}
+					if (f.type === "strikethrough") {output += "</s>"}
+				}
+				// look for start of format
+				const startFormatTypes = content.formatting.filter((f) => f.start === i);
+				// for each type, create an opening tag
+				for (const f of startFormatTypes) {
+					if (f.type === "link") {output += `<a href="${f.url}">`}
+					if (f.type === "color") {output += `<span style="color:${f.hex}">`}
+					if (f.type === "bold") {output += `<b>`}
+					if (f.type === "small") {output += `<small>`}
+					if (f.type === "mention") {output += `<a className="mention" href="${f.blog.url}">`;}
+					if (f.type === "italic") {output += `<i>`}
+					if (f.type === "strikethrough") {output += `<s>`}
+				}
+			output += char
+			}
+		}
+		// if no formatting, just output the text
+		else {
+			output += texts
+		}
+
+		// if unordered list
+		if (content.subtype === "unordered-list-item") {
+			let li = document.createElement('li')
+				li.classList.add(content.subtype, 'unordered-list-item')
+				li.innerHTML = output
+			return li
+		}
+		// if ordered list
+		if (content.subtype === "ordered-list-item") {
+			let li = document.createElement('li')
+				li.classList.add(content.subtype, 'ordered-list-item')
+				li.innerHTML = output
+			return li
+		}
+		// create and populate text element
+		else {
+			let p = document.createElement('p')
+				p.classList.add(content.subtype)
+				p.innerHTML = output
+			return p
+		}
+	}
+
+	// Function: Build Audio Block
+	function createAudio(content) {
+		// Create audio wrapper
+		let audioWrapper = document.createElement('div')
+			audioWrapper.classList.add('audio-wrapper', 'thin', 'pink', 'border')
+		// Get track data and assemble metadata element
+		let audioTrack = document.createElement('b')
+			audioTrack.classList.add('audio-track')
+			audioTrack.innerHTML = content.title
+		let audioArtist = document.createElement('i')
+			audioArtist.classList.add('audio-artist')
+			audioArtist.innerHTML = content.artist
+		let audioMeta = document.createElement('div')
+			audioMeta.classList.add('audio-meta')
+			audioMeta.append(audioTrack, audioArtist)
+		// Get albumart
+		let audioArt = document.createElement('img')
+			audioArt.src = content.poster[0].url
+		// Create audio player
+		let audioPlayer = document.createElement('audio')
+			audioPlayer.controls = 'controls' // Why is this necessary
+			audioPlayer.type = content.media.type
+			audioPlayer.src = content.media.url
+		// Assemble and return
+		audioWrapper.append(audioMeta, audioArt, audioPlayer)
+		return audioWrapper
+	}
+
+	// Function: Build Poll Block
+	function createPoll(content, permalink) {
+		let id = permalink.substring(permalink.lastIndexOf("/") + 1);
+		// Create poll item
+		let poll = document.createElement('div')
+			poll.classList.add('poll', 'thin', 'blue', 'border')
+		// Append question text
+		let question = document.createElement('span')
+			question.classList.add('question')
+			question.innerHTML = content.question
+		poll.append(question)
+		// Create answers
+		content.answers.map((answers) => {
+			let answer = document.createElement('a')
+				answer.classList.add('option', 'blue', 'button')
+				answer.target = "_blank"
+				answer.href = `https://tumblr.com/${ user }/${ id }`
+				answer.innerHTML = answers.answer_text
+			poll.append(answer)
+		})
+		return poll
+	}
+
+	// Function: Build Link Block
+	function createLink(content) {
+		// Create link element
+		let link = document.createElement('a')
+		link.classList.add('post-link', 'thin', 'green', 'border')
+		link.href = content.url
+		// Create poster element
+		let posterImage = document.createElement('div')
+			posterImage.classList.add('poster')
+		let poster = content.poster
+		if (poster) {
+			posterImage.classList.add('has-image')
+			posterImage.style.background = `linear-gradient(to top, var(--accent) 1.2em, transparent 2em), url(${content.poster[0].url})`
+		}
+		posterImage.innerHTML = `<span class="link-title">${content.title}`
+		link.append(posterImage)
+		// If link has description
+		if (content.description) {
+			let description = document.createElement('span')
+				description.classList = "description"
+				description.textContent = content.description
+			link.append(description)
+		}
+		// Get link source
+		let source = document.createElement('span')
+			source.classList.add('source')
+			source.innerHTML = `${content.site_name != null ? content.site_name : ''} | ${content.author != null ? content.author : ''}`
+		if (content.author && content.site_name) link.append(source)
+		return link
+	}
+
+	// Function: Build Image block
+	function createImage(media) {
+		let image = document.createElement('img')
+			image.src = media.url
+			image.setAttribute('srcset', media.url)
+			image.classList.add('post_media_photo', 'image')
+		let anchor = document.createElement('a')
+			anchor.classList.add('post_media_photo_anchor')
+			anchor.setAttribute('data-big-photo', media.url)
+			anchor.setAttribute('data-big-photo-height', media.height)
+			anchor.setAttribute('data-big-photo-width', media.width)
+			anchor.append(image)
+		return anchor
+	}
+
+	// Function: Populate rows
+	function createRow(content, permalink) {
+		// sort through content types
+		switch (content.type) {
+		case 'text':
+			let textWrapper = document.createElement('div')
+				textWrapper.classList.add('text-content')
+				textWrapper.append(createText(content))
+			return textWrapper
+			break;
+		case 'image':
+			return createImage(content.media[0])
+			break;
+		case 'audio':
+			return createAudio(content)
+			break;
+		case 'link':
+			return createLink(content)
+			break;
+		case 'video':
+			if (content.provider === 'tumblr') {
+			let video = document.createElement('video')
+				video.classList.add('video')
+				video.src = content.url
+				video.controls = true
+			return video
+			} else {
+			let videoWidth = content.embed_iframe?.width ?? content.media.width
+			let videoHeight = content.embed_iframe?.height ?? content.media.height
+			let video = document.createElement('iframe')
+				video.classList.add('video')
+				video.src = content.embed_iframe?.url ?? content.media.url
+				video.style.aspectRatio = `${ videoWidth } / ${ videoHeight }`
+			return video
+			}
+			break;
+		case 'poll':
+			return createPoll(content, permalink)
+			break;
+		default: // FALLBACK FOR FUTURE UNSUPPORTED BLOCK TYPES
+			return `${content.type} NPF BLOCK SUPPORT PENDING`
+		}
+	}
+
+	// Function: Create rows
+		function createRows(id, content, layout, permalink, trail = null) {
+		let rows = document.createElement('div')
+		// if there are indexes with asks
+		let asks = []
+		// if there are layouts
+		if (layout.length) {
+			// if there are rows
+			let hasRows = layout.every(v => v.type === 'rows');
+			layout.map((layout) => {
+				if (hasRows) {
+					if (layout.display) {
+					// create individual rows
+					layout.display.map((display) => {
+						let row = document.createElement('div')
+						row.classList.add(`content-rows`)
+						row.style.setProperty('--columns', display.blocks.length)
+						// if there is inner content in a row
+						if (display.blocks) {
+						display.blocks.map((block) => {
+						let innerRow = document.createElement('div')
+							innerRow.classList.add('row-element')
+							innerRow.append(createRow(content[block], permalink))
+							row.append(innerRow)
+							rows.append(row)
+						})
+						}
+					})
+					}
+				}
+				else {
+					// if layout is an ask
+					if (layout.type === 'ask') {
+						rows.classList.add('ask')
+						// create ask header
+							let askHeader = document.createElement('header')
+								askHeader.classList.add('question-header', 'thin', 'gray', 'border')
+							let askLink = document.createElement('a')
+							let ask = document.createElement('div')
+								ask.classList.add('question', 'thin', 'gray', 'border')
+							let askerIcon = document.createElement('img')
+								askerIcon.classList.add('thin', 'blue', 'border')
+							let askerName = document.createElement('span')
+							// populate non-anon header
+							if (layout.attribution) {
+								askerIcon.src = `https://api.tumblr.com/v2/blog/${layout.attribution.blog.name}/avatar/64`
+								askerName.innerHTML = `${layout.attribution.blog.name}`
+								asker.href = `https://${layout.attribution.blog.name}.tumblr.com`
+							// populate anon header
+							} else {
+								askerIcon.src = "https://assets.tumblr.com/pop/src/assets/images/avatar/anonymous_avatar_96-223fabe0.png"
+								askerName.innerHTML = "anonymous"
+							}
+						// assemble and push header
+						askLink.append(askerIcon, askerName)
+						askHeader.append(askLink)
+						rows.append(askHeader)
+						// assemble question block
+						asks = layout.blocks
+						if (layout.blocks) {
+							layout.blocks.map((block) => {
+								ask.append(createRow(content[block], permalink))
+								rows.append(ask)
+							})
+						}
+					}
+					// if it is a reply
+					if (!layout.display) {
+						// create reply header
+						let replyHeader = document.createElement('header')
+							replyHeader.classList.add('reply-header', 'thin', 'gray', 'border')
+						let replyLink = document.createElement('a')
+						let reply = document.createElement('div')
+							reply.classList.add('reply', 'thin', 'gray', 'border')
+						let replyIcon = document.createElement('img')
+							replyIcon.classList.add('thin', 'blue', 'border')
+						let replyName = document.createElement('span')
+						// populate not necessarily original header
+						if (trail) {
+							replyName.innerHTML = `${trail.name}`
+							replyIcon.src = `https://api.tumblr.com/v2/blog/${trail.name}/avatar/64`
+						// populate original header
+						} else {
+							replyName.innerHTML = user
+							replyIcon.src = `https://api.tumblr.com/v2/blog/${user}/avatar/64`
+						}
+						// assemble and push header
+						replyLink.append(replyIcon, replyName)
+						replyHeader.append(replyLink)
+						rows.append(replyHeader)
+						// assemble answer block
+						content.map((block, index) => {
+							// if block is not part of the original ask
+							if (asks.indexOf(index) === -1) {
+								// if the reply is part of a trail
+								if (trail) {
+									reply.append(createRow(block,permalink))
+									rows.append(reply)
+								}
+								// if reply is part of an original post
+								else {
+									rows.append(createRow(block, permalink))
+								}
+							}
+						})
+					}
+				}
+			})
+		} else {
+			content.map((block) => {
+				rows.append(createRow(block, permalink))
+			})
+		}
+		return rows
+	}
+
+	// Function: Request post activity data
+	function postNotes(url) {
+		let postNotesData = ""
+		let postNotesDiv = document.createElement('div')
+		let httpRequest = new XMLHttpRequest()
+			httpRequest.onreadystatechange = function (data) {
+			postNotesData = data.srcElement.response
+			}
+			httpRequest.open("GET", url)
+			httpRequest.send()
+		postNotesDiv.innerHTML = postNotesData
+		return postNotesDiv
+	}
+
+	// Function: Build Trail Item Header
+	function createHeader(blogName, blogURL, active) {
+		// Assemble header item
+		let userAvatar = `<img class="user-avatar blue thin border" src="https://api.tumblr.com/v2/blog/${ blogName }/avatar/32">`
+		let reblogHeader = document.createElement('a')
+			reblogHeader.href = blogURL
+			// no images for inactive users
+			reblogHeader.innerHTML = `${active ? userAvatar : ''} <span class="usernames">${ blogName }</span>`
+		// return reblog header content
+		return reblogHeader
+	}
+
+	// ========= POST RENDERING ====================
+	for (const post of posts) {
+		let npf = post.npf
+		let permalink = post.permalink
+		let article = document.createElement('article')
+			article.id = `post-${ post.id }`
+			article.classList.add('border')
+
+		// pink window if user is OP, blue window if pinned post
+		if (npf.trail.length > 0 && npf.trail[0].blog.name === user || post.original) {
+		article.classList.add('pink')
+		} else if (post.pinned) {
+		article.classList.add('blue')
+		} else {
+		article.classList.add('gray')
+		}
+
+		// build titlebar
+		let titlebar = document.createElement('span')
+			titlebar.classList.add('titlebar')
+			titlebar.innerHTML = post.titlebarText
+		article.append(titlebar)
+
+		// build section
+		let trailItem = document.createElement('section')
+		let articleContent = document.createElement('div')
+			articleContent.classList.add('article-content')
+
+		// if the section is part of a reblog trail
+		if (npf.trail) {
+			npf.trail.map((trail, index) => {
+				// populate header and content
+				let header = document.createElement('header')
+				let content = document.createElement('div')
+				if (trail.blog) {
+					header.append(createHeader(trail.blog.name, trail.blog.url, trail.blog.can_be_followed))
+				} else {
+					let brokenBlog = document.createElement('a')
+						brokenBlog.innerHTML = `<img class="thin gray border" src="https://assets.tumblr.com/pop/src/assets/images/avatar/anonymous_avatar_96-223fabe0.png"> <span class="usernames brokenblog">${trail.broken_blog_name}</span>`
+					header.append(brokenBlog)
+				}
+				content.append(createRows(post.id, trail.content, trail.layout, permalink, trail.blog))
+				header.classList.add('thin', 'border')
+				content.classList.add('trail-item', 'thin', 'border')
+				// did I make this trail item?
+				if (trail.blog && trail.blog.name === user) {
+					content.classList.add('pink')
+					header.classList.add('pink')
+				} else {
+					content.classList.add('gray')
+					header.classList.add('gray')
+				}
+				trailItem.append(header, content)
+				articleContent.append(trailItem)
+			})
+		}
+
+		// if the section is an original addition
+		if (npf.content.length > 0) {
+			let header = document.createElement('header')
+				header.append(createHeader(user, `https://${ user }.tumblr.com`, true, null))
+				header.classList.add('pink', 'thin' , 'border')
+			let content = document.createElement('div')
+				content.append(createRows(post.id, npf.content, npf.layout, permalink))
+				content.classList.add('trail-item', 'pink', 'thin', 'border')
+			trailItem.append(header, content)
+			articleContent.append(trailItem)
+		}
+		// assemble into article
+		article.append(articleContent)
+
+		// tags
+		if (post.tags) {
+			let tagged = document.createElement('section')
+				tagged.classList.add('tags', 'gray', 'thin', 'border')
+			for (let tag of post.tags) {
+				let tagContent = `<a href="/tagged/${ tag }">#${ tag }</a> `
+				let tagLink = document.createElement('span')
+					tagLink.innerHTML = tagContent
+				tagged.append(tagLink)
+			}
+		articleContent.append(tagged)
+		}
+
+		// footer line
+		let postInfo = document.createElement('footer')
+		// notes
+			if (post.noteCount) {
+			let notecount = document.createElement('a')
+				notecount.href = permalink
+				notecount.innerHTML = `${post.noteCount}`
+				notecount.classList.add('note-count', 'info-box', 'gray', 'thin', 'border')
+			postInfo.append(notecount)
+			}
+		// date
+			let postdate = document.createElement('span')
+				postdate.innerHTML = post.date
+				postdate.classList.add('post-date', 'info-box', 'gray', 'thin', 'border')
+			postInfo.append(postdate)
+		// buttons
+			// Create container
+			let postButtons = document.createElement('div')
+				postButtons.classList.add('interaction-buttons','gray','thin','border')
+			// Create buttons
+			let permabutton = document.createElement('a')
+				permabutton.href = permalink
+				permabutton.innerHTML = "Perma"
+				permabutton.classList.add('orange', 'button')
+			let viewbutton = document.createElement('a')
+				viewbutton.href = "https://tumblr.com/"+user+"/"+post.id
+				viewbutton.innerHTML = "View"
+				viewbutton.classList.add('blue', 'button')
+			let reblogbutton = document.createElement('a')
+				reblogbutton.href = "https://tumblr.com/reblog/"+user+"/"+post.id+"/reblog"
+				reblogbutton.innerHTML = "Reblog"
+				reblogbutton.classList.add('green', 'button')
+			// Assemble element
+			postButtons.append(permabutton, viewbutton, reblogbutton)
+			postInfo.append(postButtons)
+		// assemble post footer unless it's an inbox page
+		if (!container.classList.contains('inbox')) {
+			article.append(postInfo)
+		}
+
+		// append post activity on permalink page
+		if (permalink === window.location.href) {
+			pagination.append(postNotes(post.postNotes))
+		}
+
+		// Ask/Sumbit dialog
+		if (container.classList.contains('inbox')) {
+			let inbox = document.createElement('div')
+				inbox.classList.add('text-content')
+				inbox.innerHTML = post.inboxBody
+			articleContent.append(inbox)
+		}
+
+		// append article to container
+		container.append(article)
+	}
+</script>
+
+</html>
