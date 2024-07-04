@@ -1044,13 +1044,22 @@
 
 	// Function: Build Trail Item Header
 	function createHeader(blogName, blogURL, active) {
-		// Assemble header item
-		let userAvatar = `<img class="user-avatar blue thin border" src="https://api.tumblr.com/v2/blog/${ blogName }/avatar/32">`
+		let userName = document.createElement('span')
+			userName.innerHTML = blogName
+			userName.classList.add('usernames')
+		let userAvatar = document.createElement('img')
+			userAvatar.classList.add('user-avatar', 'thin', 'border')
+			if (active === "true") {
+				userAvatar.src = `https://api.tumblr.com/v2/blog/${ blogName }/avatar/32`
+				userAvatar.classList.add('blue')
+			} else {
+				userAvatar.src = "https://assets.tumblr.com/pop/src/assets/images/avatar/anonymous_avatar_96-223fabe0.png"
+				userAvatar.classList.add('gray')
+				userName.classList.add('brokenblog')
+			}
 		let reblogHeader = document.createElement('a')
 			reblogHeader.href = blogURL
-			// no images for inactive users
-			reblogHeader.innerHTML = `${active ? userAvatar : ''} <span class="usernames">${ blogName }</span>`
-		// return reblog header content
+		reblogHeader.append(userAvatar, userName)
 		return reblogHeader
 	}
 
