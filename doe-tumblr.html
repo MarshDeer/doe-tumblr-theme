@@ -1051,7 +1051,7 @@
 			userName.classList.add('usernames')
 		let userAvatar = document.createElement('img')
 			userAvatar.classList.add('user-avatar', 'thin', 'border')
-			if (active === "true") {
+			if (active === true) {
 				userAvatar.src = `https://api.tumblr.com/v2/blog/${ blogName }/avatar/32`
 				userAvatar.classList.add('blue')
 			} else {
