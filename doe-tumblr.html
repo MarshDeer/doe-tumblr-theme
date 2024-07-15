@@ -14,7 +14,7 @@
 <head>
 	<!-- Meta -->
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Embed -->
 		<title>LensDeer's Hideout | Tumblr {block:TagPage} ({lang:Posts tagged Tag}){/block:TagPage}{block:SearchPage} ({lang:Search results for SearchQuery}){/block:SearchPage}{block:PermalinkPage}{block:PostSummary} — {PostSummary}{/block:PostSummary}{/block:PermalinkPage}</title>
 		<link rel="shortcut icon" href="{Favicon}">
@@ -153,25 +153,25 @@
 			padding: 3px 0;
 		}
 
-		#post-pagination {
+		#notesblock {
 			width: 518px;
 			padding: 0;
 			margin: 6px 3px;
 		}
 
-			#post-pagination .notes {
+			#notesblock .notes {
 				padding-right: 3px;
 			}
 
-			#post-pagination li {
+			#notesblock li {
 				padding: 0.25em 0;
 			}
 
-				#post-pagination li:nth-child(2n) {
+				#notesblock li:nth-child(2n) {
 					background: var(--bg1);
 				}
 
-				#post-pagionation li .avatar_frame {
+				#notesblock li .avatar_frame {
 					margin-right: 1ch;
 				}
 
@@ -185,6 +185,14 @@
 			#pagination .button {
 				position: absolute;
 			}
+
+			    #pagination .prev.button {
+			        left: 0;
+			    }
+
+			    #pagination .next.button {
+			        right: 0;
+			    }
 
 		article {
 			width: fit-content;
@@ -552,45 +560,45 @@
 	<div class="DOE window pink border">
 		<span class="titlebar">BLEAT | DOE - Digital Organization Environment</span>
 		<div class="content">
-			<nav>
+            <nav>
 				<a class="border gray thin" href="https://lensdeer.neocities.org/home/index.html">
-					<img src="https://lensdeer.neocities.org/globals/icons/doe.png">
+					<img src="https://lensdeer.neocities.org/globals/icons/doe.png" aria-hidden="true" alt="">
 					<span> Home </span>
 				</a>
 				<a class="border gray thin" href="https://lensdeer.tumblr.com">
-					<img src="https://lensdeer.neocities.org/globals/icons/tumblr.png">
+					<img src="https://lensdeer.neocities.org/globals/icons/tumblr.png" aria-hidden="true" alt="">
 					<span> Tumblr </span>
 				</a>
 				<a class="border gray thin" href="https://lensdeer.tumblr.com/tagged/lensdeerart">
-					<img src="https://lensdeer.neocities.org/globals/icons/art.png">
+					<img src="https://lensdeer.neocities.org/globals/icons/art.png" aria-hidden="true" alt="">
 					<span> Art </span>
 				</a>
-				<a class="border gray thin" href="https://github.com/marshdeer">
-					<img src="https://lensdeer.neocities.org/globals/icons/git.png">
+				<a class="border gray thin" href="https://github.com/marshdeer" target="_blank">
+					<img src="https://lensdeer.neocities.org/globals/icons/git.png" aria-hidden="true" alt="">
 					<span> Code </span>
 				</a>
 				<a class="border gray thin" href="https://lensdeer.neocities.org/writing/index.html">
-					<img src="https://lensdeer.neocities.org/globals/icons/blog.png">
+					<img src="https://lensdeer.neocities.org/globals/icons/blog.png" aria-hidden="true" alt="">
 					<span> Writing </span>
 				</a>
 				<a class="border gray thin" href="https://lensdeer.neocities.org/demos/index.html">
-					<img src="https://lensdeer.neocities.org/globals/icons/demos.png">
+					<img src="https://lensdeer.neocities.org/globals/icons/demos.png" aria-hidden="true" alt="">
 					<span> Demos </span>
 				</a>
 				<a class="border gray thin" href="https://lensdeer.neocities.org/hiscore/index.html">
-					<img src="https://lensdeer.neocities.org/globals/icons/hiscore.png">
+					<img src="https://lensdeer.neocities.org/globals/icons/hiscore.png" aria-hidden="true" alt="">
 					<span> Scores </span>
 				</a>
 				<a class="border gray thin" href="https://lensdeer.neocities.org/zach/index.html">
-					<img src="https://lensdeer.neocities.org/globals/icons/exa.png">
-					<span> Solutions </span>
+					<img src="https://lensdeer.neocities.org/globals/icons/exa.png" aria-hidden="true" alt="">
+					<span> Zachlike </span>
 				</a>
 				<a class="border gray thin" href="https://lensdeer.neocities.org/ocs/index.html">
-					<img src="https://lensdeer.neocities.org/globals/icons/ocs.png">
+					<img src="https://lensdeer.neocities.org/globals/icons/ocs.png" aria-hidden="true" alt="">
 					<span> OCs </span>
 				</a>
 				<a class="border gray thin" href="https://lensdeer.neocities.org/medialog/index.html">
-					<img src="https://lensdeer.neocities.org/globals/icons/media.png">
+					<img src="https://lensdeer.neocities.org/globals/icons/media.png" aria-hidden="true" alt="">
 					<span> Medialog </span>
 				</a>
 			</nav>
@@ -610,14 +618,41 @@
 						{block:TagPage}
 							<h1 style="text-align: center; color: var(--blue)">Posts tagged #{Tag}</h1>
 						{/block:TagPage}
+						{block:DayPage}
+						    <h1 style="text-align: center; color: var(--blue)">Posts from {Year}/{MonthNumber}/{DayOfMonthWithZero} ({DayOfWeek})</h1>
+						{/block:DayPage}
+
+						<!-- NOSCRIPT FALLBACK VERSION RENDERS POSTS HERE -->
 						{block:Posts}
-							<noscript>
-								<article class="border gray">
+						    <noscript class="fallback">
+								<article id="{PostID}" class="border {block:NotReblog}pink{/block:NotReblog} {block:RebloggedFrom}gray{/block:RebloggedFrom}">
 									<span class="titlebar"> {block:NotReblog}Original {/block:NotReblog}Post{block:RebloggedFrom} reblogged from {ReblogParentName}{/block:RebloggedFrom} </span>
 									<div class="article-content">
-										<div class="trail-item thin border gray">
-											{Body}
-										</div>
+									    <section>
+									        {block:NotReblog}
+									            <header class="thin border pink">
+									                <a href="{Permalink}">
+    									                <img src="{PortraitURL-30}" class="thin blue border">
+	    								                <span class="usernames">{Name}</span>
+	    								            </a>
+									            </header>
+									            <div class="trail-item thin border pink">
+									                {block:Text}{Body}{/block:Text}{block:Photo}{block:Caption}                        {Caption}{/block:Caption}{/block:Photo}{block:Panorama}{block:Caption}{Caption}{/block:Caption}{/block:Panorama}{block:Photoset}{block:Caption}{Caption}{/block:Caption}{/block:Photoset}{block:Link}{block:Description}{Description}{/block:Description}{/block:Link}{block:Audio}{block:Caption}{Caption}{/block:Caption}{/block:Audio}{block:Video}{block:Caption}{Caption}{/block:Caption}{/block:Video}{block:Answer}{Answer}{/block:Answer}
+									            </div>
+									   </section>
+									        {/block:NotReblog}
+									        {block:Reblogs}
+									            <header class="thin border gray">
+                                                    <a href="{Permalink}">
+                                                        <img src="{PortraitURL-64}" class="thin blue border">
+                                                        <span class="usernames">{Username}</span>
+                                                    </a>
+									            </header>
+									            <div class="trail-item thin border gray">
+									                {Body}
+									            </div>
+									        {/block:Reblogs}
+									    </section>
 									</div>
 									<footer>
 										<a class="note-count info-box gray thin border" href="{Permalink}">{NoteCountWithLabel}</a>
@@ -631,18 +666,27 @@
 								</article>
 							</noscript>
 						{/block:Posts}
+
 						<!-- JAVASCRIPT VERSION APPENDS POSTS HERE -->
 					</div>
 
 					{block:PermalinkPagination}
-						<div id="post-pagination" class="thin gray border"></div>
+						<div id="notesblock" class="thin gray border"></div>
 					{/block:PermalinkPagination}
-					{block:Pagination}
-						<div id="pagination">
-							{block:PreviousPage}<a href="{PreviousPage}" style="left: 0;" class="blue button">Previous Page</a>{/block:PreviousPage}
-							{block:NextPage}<a href="{NextPage}" style="right: 0;" class="blue button">Next Page</a>{/block:NextPage}
-						</div>
-					{/block:Pagination}
+					<div id="pagination">
+					    {block:Pagination}
+						        {block:PreviousPage}<a href="{PreviousPage}" class="blue prev button"> Previous Page </a>{/block:PreviousPage}
+						        {block:NextPage}<a href="{NextPage}" class="blue next button"> Next Page </a>{/block:NextPage}
+						{/block:Pagination}
+						{block:PermalinkPagination}
+						    {block:PreviousPost}<a href="{PreviousPost}" class="blue prev button"> Previous Post </a>{/block:PreviousPost}
+						    {block:NextPost}<a href="{NextPost}" class="blue next button"> Next Post </a>{/block:NextPost}
+						{/block:PermalinkPagination}
+						{block:DayPagination}
+						    {block:PreviousDayPage}<a href="{PreviousDay}" class="blue prev button"> Previous Day </a>{/block:PreviousDayPage}
+						    {block:NextDayPage}<a href="{NextDay}" class="blue next button"> Next Day </a>{/block:NextDayPage}
+						{/block:DayPagination}
+					</div>
 				</div>
 			</div>
 
@@ -650,7 +694,7 @@
 			<aside id="tumblrinfobox" class="window pink border" style="right: 12px; bottom: 12px;>">
 				<span class="titlebar"> Tumblr | Blog Info </span>
 				<div class="content">
-					<img class="pink thin border" style="grid-area: pic; padding: 0;" src={PortraitURL-128}>
+					<img class="pink thin border" style="grid-area: pic; padding: 0;" src={PortraitURL-128} aria-hidden="true" alt="">
 					<h1 class="title">{Title}</h1>
 					<p class="description">{text:blog description}</p>
 					<div class="buttons">
@@ -676,20 +720,20 @@
 			<span class="titlebar">Projects</span>
 				<div class="content">
 					<a style="text-decoration: none;" href="https://lensdeer.neocities.org">
-						<img src="https://lensdeer.neocities.org/globals/88x31.gif">
+						<img src="https://lensdeer.neocities.org/globals/88x31.gif" alt="Lensdeer's Hideout">
 					</a>
 					<a style="text-decoration: none;" href="https://marshdeer.github.io/howlongmojang" target="_blank">
-						<img src=https://marshdeer.github.io/howlongmojang/img/button.gif>
+						<img src=https://marshdeer.github.io/howlongmojang/img/button.gif alt="How Long, Mojang?">
 					</a>
 					<a style="text-decoration: none;" href="https://marshdeer.github.io/root-faction-randomizer" target="_blank">
-						<img src=https://marshdeer.github.io/root-faction-randomizer/assets/88x31.gif>
+						<img src=https://marshdeer.github.io/root-faction-randomizer/assets/88x31.gif alt="Root Randomizer">
 					</a>
 				</div>
 			</aside>
 
 			<!-- Error windows -->
-				<!-- Empty Search -->
 				{block:SearchPage}{block:NoSearchResults}
+				<!-- Empty Search -->
 				<div id="error" class="window red border" style="width: 25ch; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3">
 					<span class="titlebar"> No Results </span>
 					<div class="content">
@@ -701,8 +745,8 @@
 				</div>
 				{/block:NoSearchResults}{/block:SearchPage}
 
-				<!-- Empty Blog -->
 				{block:NoPosts}
+				<!-- Empty Blog -->
 				<div id="error" class="window red border" style="width: 25ch; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3">
 					<span class="titlebar"> No Results </span>
 					<div class="content">
@@ -714,8 +758,8 @@
 				</div>
 				{/block:NoPosts}
 
-				<!-- No Javascript -->
 				<noscript>
+				<!-- No Javascript -->
 					<div id="error" class="window red border" style="width: 40ch; left: 165px; bottom: 20px; z-index: 0">
 						<span class="titlebar"> Javascript recommended </span>
 						<div class="content">
@@ -731,6 +775,7 @@
 						</div>
 					</div>
 				</noscript>
+
 			</main>
 		</div>
 	</div>
@@ -742,7 +787,7 @@
 		let user = "{name}"
 		let posts = new Array()
 		let container = document.getElementById('posts')
-		let pagination = document.getElementById('post-pagination')
+		let pagination = document.getElementById('notesblock')
 
 	// Create posts array
 	{block:Posts} // "Posts" block renders once per post in the page
@@ -918,6 +963,7 @@
 			image.src = media.url
 			image.setAttribute('srcset', media.url)
 			image.classList.add('post_media_photo', 'image')
+			// TODO: alt text
 		let anchor = document.createElement('a')
 			anchor.classList.add('post_media_photo_anchor')
 			anchor.setAttribute('data-big-photo', media.url)
@@ -1248,7 +1294,7 @@
 
 		// append post activity on permalink page
 		if (permalink === window.location.href) {
-			pagination.append(postNotes(post.postNotes))
+			notesblock.append(postNotes(post.postNotes))
 		}
 
 		// Ask/Sumbit dialog
