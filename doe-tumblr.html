@@ -23,7 +23,6 @@
 		<meta name="description" content="{MetaDescription}">
 	<!-- Stylesheets -->
 		<link rel="stylesheet" type="text/css" href="https://lensdeer.neocities.org/globals/doe.css">
-		<link rel="stylesheet" type="text/css" href="https://lensdeer.neocities.org/globals/tumblr/doe-tumblr.css">
 	<!-- Tumblr boilerplate -->
 		{PostTypographyStyles}
 	<!-- Options -->
@@ -94,37 +93,52 @@
 		        height: fit-content;
 		    }
 
-		#search.window {
-			bottom: 180px;
+		form#search {
+			bottom: 181px;
 			right: 40px;
 			width: 350px;
 		}
+		
+		form#tags {
+		    bottom: 245px;
+		    right: 50px;
+		    width: 350px;
+		}
 
-			#search.window .content {
-				display: grid;
-				grid-template-columns: 1fr auto;
-				gap: 6px;
+	        form .content {
+			    display: grid;
+			    grid-template-columns: 1fr auto;
+			    grid-template-rows: auto;
+			    gap: 6px;
+		    }
+
+		    form input[type=submit] {
+			    border: none;
+		    }
+
+		    form input[type=text] {
+			    background: none;
+			    color: var(--fg1);
+			    padding: 3px;
+			    box-shadow: /* TODO: why the fuck is the border Like That */
+				    -1px -1px 0 1px var(--dteal),
+				    0 0 0 1px var(--fg1);
+			    width: calc(100% - 10px);
+			    height: 1em;
+		    }
+
+			    form input[type=text]:focus {
+				    outline: none !important;
+				    background: var(--bg2) !important;
+			    }
+			    
+			form menu {
+			    display: flex;
+			    grid-column: 1/3;
+			    gap: 6px;
+			    margin: 0 auto;
+			    padding: 0;
 			}
-
-			#search.window input[type=submit] {
-				border: none;
-			}
-
-			#search.window input[type=text] {
-				background: none;
-				color: var(--fg1);
-				padding: 3px;
-				box-shadow: /* TODO: why the fuck is the border Like That */
-					-1px -1px 0 1px var(--dteal),
-					0 0 0 1px var(--fg1);
-				width: calc(100% - 10px);
-				height: 1em;
-			}
-
-				#search.window input[type=text]:focus {
-					outline: none !important;
-					background: var(--bg2) !important;
-				}
 
 		#error.window {
 			text-align: center;
@@ -185,11 +199,11 @@
 			#pagination .button {
 				position: absolute;
 			}
-
+			
 			    #pagination .prev.button {
 			        left: 0;
 			    }
-
+			
 			    #pagination .next.button {
 			        right: 0;
 			    }
@@ -603,7 +617,7 @@
 				</a>
 			</nav>
 			<time id="clock">88:88</time>
-			<script src="https://lensdeer.neocities.org/globals/clock.js"></script>
+			<script src="https://lensdeer.neocities.org/globals/doe.js"></script>
 
 		<!-- ======================== TUMBLR SECTION =========================== -->
 		<!-- Posts -->
@@ -621,7 +635,7 @@
 						{block:DayPage}
 						    <h1 style="text-align: center; color: var(--blue)">Posts from {Year}/{MonthNumber}/{DayOfMonthWithZero} ({DayOfWeek})</h1>
 						{/block:DayPage}
-
+						
 						<!-- NOSCRIPT FALLBACK VERSION RENDERS POSTS HERE -->
 						{block:Posts}
 						    <noscript class="fallback">
@@ -666,7 +680,7 @@
 								</article>
 							</noscript>
 						{/block:Posts}
-
+						
 						<!-- JAVASCRIPT VERSION APPENDS POSTS HERE -->
 					</div>
 
@@ -714,6 +728,21 @@
 					<input type="submit" value="Search!" class="green button"/>
 				</div>
 			</form>
+			
+			<!-- Tags browsing -->
+			<form class="window blue border" id="tags" action="/tagged" method="get" role="search">
+				<span class="titlebar">Browse By Tags</span>
+				<div class="content">
+					<input type="text" name="q" placeholder="{BlogURL}tagged/" autocomplete=off value="{SearchQuery}"/ class="thin blue border">
+					<input type="submit" value="View Tag!" class="blue button"/>
+					<menu>
+					    <a href="{BlogURL}tagged/deerbleats" class="blue button">#deerbleats</a>
+					    <a href="{BlogURL}tagged/lensdeerart" class="blue button">#lensdeerart</a>
+					    <a href="{BlogURL}tagged/lensdeercode" class="blue button">#lensdeercode</a>
+					</menu>
+				</div>
+			</form>
+			
 
 			<!-- Projects -->
 			<aside id="projects" class="window pink border">
@@ -775,7 +804,7 @@
 						</div>
 					</div>
 				</noscript>
-
+				
 			</main>
 		</div>
 	</div>
@@ -963,7 +992,7 @@
 			image.src = media.url
 			image.setAttribute('srcset', media.url)
 			image.classList.add('post_media_photo', 'image')
-			// TODO: alt text
+			// TODO: alt text is a string on content[X].alt_text
 		let anchor = document.createElement('a')
 			anchor.classList.add('post_media_photo_anchor')
 			anchor.setAttribute('data-big-photo', media.url)
