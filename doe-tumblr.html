@@ -41,7 +41,8 @@
 	/* Windows Layout */
 	    #main.window {
 	        width: fit-content;
-	        height: 450px;
+	        height: 480px;
+	        left: -20px;
 	        top: 40px;
 	        z-index: 1;
 	    }
@@ -79,8 +80,8 @@
 
 		#projects.window {
 			width: fit-content;
-			right: 23px;
-			top: 30px;
+			right: 12px;
+			top: 12px;
 			height: fit-content;
 		}
 
@@ -93,19 +94,19 @@
 		        height: fit-content;
 		    }
 
-		form#search {
+		#search {
 			bottom: 181px;
-			right: 40px;
+			right: 25px;
 			width: 350px;
 		}
 		
-		form#tags {
+		#tags {
 		    bottom: 245px;
-		    right: 50px;
+		    right: 45px;
 		    width: 350px;
 		}
 
-	        form .content {
+	        :where(#search, #tags) .content {
 			    display: grid;
 			    grid-template-columns: 1fr auto;
 			    grid-template-rows: auto;
@@ -163,7 +164,7 @@
 			flex-direction: column;
 			flex-grow: 1;
 			gap: 12px;
-			width: calc(500px + 24px);
+			width: calc(540px + 24px);
 			padding: 3px 0;
 		}
 
@@ -268,7 +269,7 @@
 				article .trail-item,
 				article .tags {
 					background: var(--bg0);
-					width: 500px;
+					width: 540px;
 				}
 
 				article .tags {
@@ -421,7 +422,7 @@
 
 		.content-rows {
 			--gap: 3px;
-			width: 500px;
+			width: 540px;
 			display: grid;
 			grid-template-columns: repeat(var(--columns), calc((100% - ((var(--columns) - 1) * var(--gap))) / var(--columns)));
 			gap: var(--gap);
@@ -522,7 +523,7 @@
 				}
 
 		article .trail-item :where(img, video,iframe.video){
-			max-width: min(500px, 100%) !important;
+			max-width: min(540px, 100%) !important;
 		}
 
 	/* Responsiveness */
@@ -530,8 +531,9 @@
 			/* Window orders */
 				#tumblrinfobox {order: 1;}
 				#search {order: 2;}
-				#main {order: 3;}
-				#projects {order: 4;}
+				#tags {order: 3;}
+				#main {order: 4;}
+				#projects {order: 5;}
 			/* Layout */
 				#projects .content {
 					flex-direction: row;
@@ -565,7 +567,7 @@
 
 <style>{CustomCSS}</style>
 
-<body>
+<body onload="initWM(); updateClock(); setInterval('updateClock()', 15 * 1000)">
 	<!-- ====================== BASE UI SECTION ============================ -->
 	<a class="skipnav window red thin border" href="#main">
 		Skip to content
@@ -705,7 +707,7 @@
 			</div>
 
 			<!-- Info Box -->
-			<aside id="tumblrinfobox" class="window pink border" style="right: 12px; bottom: 12px;>">
+			<aside id="tumblrinfobox" class="window pink border" style="right: 12px; bottom: 12px;">
 				<span class="titlebar"> Tumblr | Blog Info </span>
 				<div class="content">
 					<img class="pink thin border" style="grid-area: pic; padding: 0;" src={PortraitURL-128} aria-hidden="true" alt="">
@@ -721,27 +723,27 @@
 			</aside>
 
 			<!-- Search -->
-			<form class="window green border" id="search" action="/search" method="get" role="search">
+			<div class="window green border" id="search" >
 				<span class="titlebar">Search This Blog</span>
-				<div class="content">
-					<input type="text" name="q" placeholder="{BlogURL}search/" autocomplete=off value="{SearchQuery}"/ class="thin green border">
+				<form class="content" action="/search" method="get" role="search">
+					<input type="text" name="q" placeholder="{BlogURL}search/" autocomplete=off value="{SearchQuery}" class="thin green border"/>
 					<input type="submit" value="Search!" class="green button"/>
-				</div>
-			</form>
+				</form>
+			</div>
 			
 			<!-- Tags browsing -->
-			<form class="window blue border" id="tags" action="/tagged" method="get" role="search">
+			<div class="window blue border" id="tags">
 				<span class="titlebar">Browse By Tags</span>
-				<div class="content">
-					<input type="text" name="q" placeholder="{BlogURL}tagged/" autocomplete=off value="{SearchQuery}"/ class="thin blue border">
+				<form class="content" onsubmit="return tagSearch()">
+					<input type="text" name="/" placeholder="{BlogURL}tagged/" autocomplete=off value="{block:TagPage}{Tag}{/block:TagPage}" class="thin blue border"/>
 					<input type="submit" value="View Tag!" class="blue button"/>
 					<menu>
-					    <a href="{BlogURL}tagged/deerbleats" class="blue button">#deerbleats</a>
-					    <a href="{BlogURL}tagged/lensdeerart" class="blue button">#lensdeerart</a>
-					    <a href="{BlogURL}tagged/lensdeercode" class="blue button">#lensdeercode</a>
+					    {block:FeaturedTags}
+					        <a href="{TagURL}" class="blue button">#{Tag}</a>
+					    {/block:FeaturedTags}
 					</menu>
-				</div>
-			</form>
+				</form>
+			</div>
 			
 
 			<!-- Projects -->
@@ -757,13 +759,25 @@
 					<a style="text-decoration: none;" href="https://marshdeer.github.io/root-faction-randomizer" target="_blank">
 						<img src=https://marshdeer.github.io/root-faction-randomizer/assets/88x31.gif alt="Root Randomizer">
 					</a>
+					<a style="text-decoration: none;" href="https://marshdeer.github.io/fawnancial" target="_blank">
+						<img src=https://lensdeer.neocities.org/home/88x31/fawnancial.gif alt="Fawnancial">
+					</a>
+					<a href="https://marshdeer.github.io/xkcd2501-generator" target=_blank>
+			<img src="https://lensdeer.neocities.org/home/88x31/xkcd.gif" alt="xkcd 2501 generator">
+		</a>
 				</div>
 			</aside>
 
 			<!-- Error windows -->
 				{block:SearchPage}{block:NoSearchResults}
 				<!-- Empty Search -->
-				<div id="error" class="window red border" style="width: 25ch; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3">
+				<div id="error" class="window red border" style="
+				    width: 25ch;
+				    left: 0;
+				    top: 50%; 
+				    transform: translate(-50%, -50%); 
+				    z-index: 3"
+				>
 					<span class="titlebar"> No Results </span>
 					<div class="content">
 						<p>
@@ -789,7 +803,7 @@
 
 				<noscript>
 				<!-- No Javascript -->
-					<div id="error" class="window red border" style="width: 40ch; left: 165px; bottom: 20px; z-index: 0">
+					<div id="error" class="window red border" style="width: 40ch; left: 0px; bottom: 20px; z-index: 0">
 						<span class="titlebar"> Javascript recommended </span>
 						<div class="content">
 							<p>
@@ -810,6 +824,13 @@
 	</div>
 </body>
 
+<script> 
+    function tagSearch() {
+        let tagQuery = document.querySelector('#tags form input[type=text]').value
+        window.location.href = `/tagged/${encodeURIComponent(tagQuery)}`
+        return false
+    }
+</script>
 <!-- =========================== NPF RENDERING SCRIPT ====================== -->
 <script>
 	// Set global variables
@@ -1325,6 +1346,14 @@
 		if (permalink === window.location.href) {
 			notesblock.append(postNotes(post.postNotes))
 		}
+		
+		// add close buttons to posts
+		let closeButton = document.createElement('button')
+		    closeButton.classList.add('titlebarbutton')
+		    closeButton.style.right = 0
+		    closeButton.setAttribute('aria-hidden', true)
+		    closeButton.onclick = function() {this.parentNode.setAttribute('hidden', true)}
+		article.append(closeButton)
 
 		// Ask/Sumbit dialog
 		if (container.classList.contains('inbox')) {
